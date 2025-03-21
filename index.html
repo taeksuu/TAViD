@@ -335,39 +335,42 @@
     <h2 class="title is-3 is-centered has-text-centered">Applications</h2>
 
     <h2 class="title is-5">Video content creation</h2>
-    <p>Our target-aware model generates videos where the actor interacts with the specified target. Baseline methods often hallucinate the target described in the input text prompt, leading to unintended outputs.</p>
+    <p>Given images of a person and a scene, we perform depth-based 3D insertion of the person
+      into the scene and render them together to produce frames for video diffusion input. We interpolate generated initial and final frames to
+      synthesize navigation contents, and utilize our target-aware video diffusion model to synthesize action and manipulation contents.</p>
     <div class="columns is-centered">
       <div class="column">
         <div class="content">
-          <video id="ta" autoplay muted loop playsinline height="100%">
-            <source src="./static/videos/ta_teddy.mp4" type="video/mp4">
+          <video id="vcc" autoplay muted loop playsinline height="100%">
+            <source src="./static/videos/vcc_crf.mp4" type="video/mp4">
           </video>
-          <p class="has-text-centered">
-            "The girl turns and picks up the <span style="color:green">[TGT]</span> teddy bear resting on the bed."
-          </p>
+          <style>
+            #vcc {
+              clip-path: inset(2px 2px 2px 2px); /* Crop 2px from each side */
+            }
+          </style>
         </div>
       </div>
     </div>
-    <div class="columns is-centered">
-      <div class="column">
-        <div class="content">
-          <video id="ta" autoplay muted loop playsinline height="100%">
-            <source src="./static/videos/ta_coke.mp4" type="video/mp4">
-          </video>
-          <p class="has-text-centered">
-            "The man lifts the <span style="color:green">[TGT]</span> bottle of coke and takes a slow sip."
-          </p>
-        </div>
-      </div>
-    </div>
+
   
     <h2 class="title is-5">Zero-shot 3D human-object interaction synthesis</h2>
-    <p>We perform imitation learning on 3D pose of a person interacting with a target in the scene, obtained from videos generated with our method, demonstrating our target-aware model's connection for robotic applications.</p>
+    <p>We demonstrate our target-aware model's connection with robotic applications by performing imitation learning on 3D poses of a person interacting with a target in the scene.
+      We use <a href="https://zju3dv.github.io/gvhmr/GVHMR" target="_blank">GVHMR</a> to estimate 3D human motions from our generated videos and <a href="https://wyhuai.github.io/physhoi-page/" target="_blank">PhysHOI</a> to perform physics-based imitation learning of the human motion.</p>
     <div class="columns is-centered">
       <div class="column">
         <div class="content">
           <video id="mo" autoplay muted loop playsinline height="100%">
-            <source src="./static/videos/ir.mp4" type="video/mp4">
+            <source src="./static/videos/ir_2.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+    </div>
+    <div class="columns is-centered">
+      <div class="column">
+        <div class="content">
+          <video id="mo" autoplay muted loop playsinline height="100%">
+            <source src="./static/videos/ir_1.mp4" type="video/mp4">
           </video>
         </div>
       </div>
@@ -422,7 +425,7 @@
 
         <h3>
           <br>
-          To integrate the target mask during generation, we extend our base image-to-video diffusion model, CogVideoX. Specifically, we concatenate the downsampled mask alongside the input image condition and append an extra input channel to the original image projection layer. During fine-tuning, we train the image projection layer and the transformer.
+          To integrate the target mask during generation, we extend our base image-to-video diffusion model, <a href="https://github.com/THUDM/CogVideo" target="_blank">CogVideoX</a>. Specifically, we concatenate the downsampled mask alongside the input image condition and append an extra input channel to the original image projection layer. During fine-tuning, we train the image projection layer and the transformer.
           <br>
           <br>
         </h3>
@@ -432,10 +435,10 @@
 
         <h3>
           <br>
-          To train our target-aware model, we curate 1290 videos from Ego-Exo4D and BEHAVE datasets that satisfy two conditions: <br>
+          To train our target-aware model, we curate 1290 videos from <a href="https://ego-exo4d-data.org/" target="_blank">Ego-Exo4D</a> and <a href="https://virtualhumans.mpi-inf.mpg.de/behave/" target="_blank">BEHAVE</a> datasets that satisfy two conditions: <br>
           1. the initial frame should depict a scene where an actor is present but not yet interacting with the target, and <br>
           2. subsequent frames must capture the actor engaging with the target. <br>
-          We obtain the mask for the target in the initial frame using SAM and generate text prompts with CogVLM2-Caption. While it is ideal to prepend <span style="color:green">[TGT]</span> tokens to the target object tokens during caption generation, we find that current video captioning tools cannot reliably identify the target object in complex scenes. Therefore, we add a general sentence, “The person interacts with <span style="color:green">[TGT]</span> object.” to the generated captions, which we find sufficient to train our target-aware model.
+          We obtain the mask for the target in the initial frame using <a href="https://github.com/facebookresearch/segment-anything" target="_blank">SAM</a> and generate text prompts with <a href="https://huggingface.co/THUDM/cogvlm2-llama3-caption" target="_blank">CogVLM2-Caption</a>. While it is ideal to prepend <span style="color:green">[TGT]</span> tokens to the target object tokens during caption generation, we find that current video captioning tools cannot reliably identify the target object in complex scenes. Therefore, we add a general sentence, “The person interacts with <span style="color:green">[TGT]</span> object.” to the generated captions, which we find sufficient to train our target-aware model.
 
           <br>
           <br>
