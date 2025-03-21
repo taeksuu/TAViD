@@ -56,7 +56,7 @@
             <div class="is-size-5 publication-authors">
               <!-- Paper authors -->
               <span class="author-block">
-                <a href="https://taeksuu.github.io/" target="_blank">Taeksoo Kim<sup>1</sup>,&nbsp</span>
+                <a href="https://taeksuu.github.io/" target="_blank">Taeksoo Kim<sup>1</sup></a>,&nbsp</span>
                 <span class="author-block">
                   <a href="https://jhugestar.github.io/" target="_blank">Hanbyul Joo<sup>1,2</sup></a></span>
                   </div>
@@ -96,7 +96,7 @@
                     <span class="icon">
                       <i class="fab fa-github"></i>
                     </span>
-                    <span>Code</span>
+                    <span>Code & Data</span>
                   </a>
                 </span>
 
@@ -126,15 +126,21 @@
       <b>TL; DR.</b> Given an input image, our target-aware video diffusion model generates a video in which<br>an actor accurately interacts with the target, specified with its segmentation mask.
     </h2>
     <div class="hero-body">
-      <video poster="" id="tree" autoplay controls muted loop height="100%">
+      <video id="teaser" autoplay muted loop playsinline height="100%">
         <!-- Your video here -->
-        <source src="static/videos/banner_video.mp4"
+        <source src="static/videos/teaser_crf.mp4"
         type="video/mp4">
       </video>
+      <style>
+        #teaser {
+          clip-path: inset(2px 2px 2.5px 2px); /* Crop 2px from each side */
+        }
+      </style>
     </div>
   </div>
 </section>
 <!-- End teaser video -->
+
 
 <!-- Paper abstract -->
 <section class="section hero is-light">
@@ -144,7 +150,10 @@
         <h2 class="title is-3">Abstract</h2>
         <div class="content has-text-justified">
           <p>
-            We present a target-aware video diffusion model that generates videos from an input image in which an actor interacts with a specified target while performing a desired action. The target is defined by a segmentation mask and the desired action is described via a text prompt. Unlike existing image-to-video diffusion models that often require dense structural or motion cues to guide the actor's movements, our target-aware model relies solely on a simple mask to specify the target, leveraging the generalization capabilities of pretrained models to produce plausible actions. This makes our method particularly effective for human-object interaction (HOI) scenarios, where providing precise action guidance is challenging, and further enables the use of video diffusion models for high-level motion planning in applications such as robotics. We build our target-aware model by extending a baseline model to incorporate the target mask as an additional input. To enforce target awareness, we introduce a special token that encodes the target’s spatial information within the text prompt. We then fine-tune the model with our curated dataset using a novel cross-attention loss that aligns the cross-attention maps associated with this token with the input target mask. To further improve performance, we selectively apply this loss to the most semantically relevant transformer blocks and attention regions. Experimental results show that our target-aware model outperforms existing solutions in generating videos where actors interact accurately with the specified targets. We further demonstrate its efficacy in two downstream applications: video content creation and zero-shot 3D HOI motion synthesis. 
+            We present a target-aware video diffusion model that generates videos from an input image in which an actor interacts with a specified target while performing a desired action. The target is defined by a segmentation mask and the desired action is described via a text prompt. <br><br>
+            Unlike existing image-to-video diffusion models that often require dense structural or motion cues to guide the actor's movements, our target-aware model relies solely on a simple mask to specify the target, leveraging the generalization capabilities of pretrained models to produce plausible actions. This makes our method particularly effective for human-object interaction (HOI) scenarios, where providing precise action guidance is challenging, and further enables the use of video diffusion models for high-level motion planning in applications such as robotics. <br><br>
+            We build our target-aware model by extending a baseline model to incorporate the target mask as an additional input. To enforce target awareness, we introduce a special token that encodes the target’s spatial information within the text prompt. We then fine-tune the model with our curated dataset using a novel cross-attention loss that aligns the cross-attention maps associated with this token with the input target mask. To further improve performance, we selectively apply this loss to the most semantically relevant transformer blocks and attention regions. <br><br>
+            Experimental results show that our target-aware model outperforms existing solutions in generating videos where actors interact accurately with the specified targets. We further demonstrate its efficacy in two downstream applications: video content creation and zero-shot 3D HOI motion synthesis. 
           </p>
         </div>
       </div>
@@ -154,6 +163,217 @@
 <!-- End paper abstract -->
 
 
+<!-- Results -->
+<section class="section">
+  <div class="container is-max-desktop content">
+    <h2 class="title is-3 is-centered has-text-centered">Results</h2>
+
+    <h2 class="title is-5">Comparison on target alignment</h2>
+    <p>Our target-aware model generates videos where the actor interacts with the specified target. Baseline methods often hallucinate the target described in the input text prompt, leading to unintended outputs.</p>
+    <div class="columns is-centered">
+      <div class="column">
+        <div class="content">
+          <video id="ta" autoplay muted loop playsinline height="100%">
+            <source src="./static/videos/ta_teddy.mp4" type="video/mp4">
+          </video>
+          <p class="has-text-centered">
+            "The girl turns and picks up the <span style="color:green">[TGT]</span> teddy bear resting on the bed."
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="columns is-centered">
+      <div class="column">
+        <div class="content">
+          <video id="ta" autoplay muted loop playsinline height="100%">
+            <source src="./static/videos/ta_coke.mp4" type="video/mp4">
+          </video>
+          <p class="has-text-centered">
+            "The man lifts the <span style="color:green">[TGT]</span> bottle of coke and takes a slow sip."
+          </p>
+        </div>
+      </div>
+    </div>
+  
+    <h2 class="title is-5">Multiple objects of the same type</h2>
+    <p>In scenes with multiple objects of the same type, our method enables actors to accurately interact with the intended target by leveraging its mask.</p>
+    <div class="columns is-centered">
+      <div class="column">
+        <div class="content">
+          <video id="mo" autoplay muted loop playsinline height="100%">
+            <source src="./static/videos/multi_obj.mp4" type="video/mp4">
+          </video>
+          <p class="has-text-centered">
+            "The woman picks up the <span style="color:green">[TGT]</span> mug cup and takes a sip of coffee."
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <h2 class="title is-5">Non-human interactions</h2>
+    <p>While trained on human-scene interaction datasets, our target-aware model generalizes to non-human interactions.</p>
+    <div class="columns is-centered">
+      <div class="column">
+        <div class="content is-centered">
+          <video id="nh" autoplay muted loop playsinline width="100%">
+            <source src="./static/videos/non_hum.mp4" type="video/mp4">
+          </video>
+          <p class="has-text-centered">
+            Left: “The rabbit turns its head towards the <span style="color:green">[TGT]</span> carrot and takes a bite of it.” <br>
+            Right: “The dog bites onto the <span style="color:green">[TGT]</span> frisbee and lifts it off the ground.”
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <h2 class="title is-5">Control over both the actor and the target</h2>
+    <p>Our model, extended to take in two masks, enables specifying both the source actor and the target object. The actor is indicated with a <span style="color:red">red</span> mask and the target is indicated with a <span style="color:green">green</span> mask.</p>
+    <div class="columns is-centered">
+      <div class="column">
+        <div class="content">
+          <video id="mo" autoplay muted loop playsinline height="100%">
+            <source src="./static/videos/two_masks.mp4" type="video/mp4">
+          </video>
+          <p class="has-text-centered">
+            “The <span style="color:red">[SRC]</span> robotic arm picks up the  <span style="color:green">[TGT]</span> blue can with its robot hand.”
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <br>
+
+    <!-- Toggle Button ABOVE the content -->
+    <div class="has-text-centered">
+      <button class="button is-link is-light" onclick="toggleResults()">Click for more results</button>
+    </div>
+
+    <!-- Hidden Section STARTS here -->
+    <div id="results-section" style="display: none;">
+
+      <h2 class="title is-5">Targeting in complex scenes</h2>
+      <p>
+        Our model successfully generates videos that capture accurate interactions with the target object, even when the target occupies only a small portion of a complex scene.
+      </p>
+
+      <div class="columns is-centered">
+        <div class="column">
+          <div class="content">
+            <video autoplay muted loop playsinline height="100%">
+              <source src="./static/videos/ego4d_1.mp4" type="video/mp4">
+            </video>
+            <p class="has-text-centered">
+              “The man picks up the <span style="color:green">[TGT]</span> tumbler bottle from the table and takes a drink of water.” 
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="columns is-centered">
+        <div class="column">
+          <div class="content">
+            <video autoplay muted loop playsinline height="100%">
+              <source src="./static/videos/ego4d_2.mp4" type="video/mp4">
+            </video>
+            <p class="has-text-centered">
+              “The woman picks up the <span style="color:green">[TGT]</span> red cartoon.”
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <h2 class="title is-5">Providing motion</h2>
+      <p>
+        Our output videos can serve as a source of motion data for existing controllable video generation approaches, such as 
+        <a href="https://igl-hkust.github.io/das/" target="_blank">Diffusion as Shader (Das)</a>.
+      </p>
+
+      <div class="columns is-centered">
+        <div class="column">
+          <div class="content">
+            <video autoplay muted loop playsinline height="100%">
+              <source src="./static/videos/das_1.mp4" type="video/mp4">
+            </video>
+            <p class="has-text-centered">
+              “The person sits on the <span style="color:green">[TGT]</span> chair.”
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="columns is-centered">
+        <div class="column">
+          <div class="content">
+            <video autoplay muted loop playsinline height="100%">
+              <source src="./static/videos/das_2.mp4" type="video/mp4">
+            </video>
+            <p class="has-text-centered">
+              “The rabbit turns its head towards the <span style="color:green">[TGT]</span> carrot and takes a bite.”
+            </p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Toggle Script -->
+    <script>
+      function toggleResults() {
+        const section = document.getElementById("results-section");
+        section.style.display = section.style.display === "none" ? "block" : "none";
+      }
+    </script>
+
+
+  </div>
+</section>
+
+
+<!-- Applications -->
+<section class="section">
+  <div class="container is-max-desktop content">
+    <h2 class="title is-3 is-centered has-text-centered">Applications</h2>
+
+    <h2 class="title is-5">Video content creation</h2>
+    <p>Our target-aware model generates videos where the actor interacts with the specified target. Baseline methods often hallucinate the target described in the input text prompt, leading to unintended outputs.</p>
+    <div class="columns is-centered">
+      <div class="column">
+        <div class="content">
+          <video id="ta" autoplay muted loop playsinline height="100%">
+            <source src="./static/videos/ta_teddy.mp4" type="video/mp4">
+          </video>
+          <p class="has-text-centered">
+            "The girl turns and picks up the <span style="color:green">[TGT]</span> teddy bear resting on the bed."
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="columns is-centered">
+      <div class="column">
+        <div class="content">
+          <video id="ta" autoplay muted loop playsinline height="100%">
+            <source src="./static/videos/ta_coke.mp4" type="video/mp4">
+          </video>
+          <p class="has-text-centered">
+            "The man lifts the <span style="color:green">[TGT]</span> bottle of coke and takes a slow sip."
+          </p>
+        </div>
+      </div>
+    </div>
+  
+    <h2 class="title is-5">Zero-shot 3D human-object interaction synthesis</h2>
+    <p>We perform imitation learning on 3D pose of a person interacting with a target in the scene, obtained from videos generated with our method, demonstrating our target-aware model's connection for robotic applications.</p>
+    <div class="columns is-centered">
+      <div class="column">
+        <div class="content">
+          <video id="mo" autoplay muted loop playsinline height="100%">
+            <source src="./static/videos/ir.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
 
 <!-- Method -->
@@ -161,29 +381,94 @@
   <div class="container is-max-desktop">
     <div class="hero-body">
       <br>
-    <h2 class="title is-3 has-text-centered">Method</h2>
-    <h3>
-      1. We first extend a baseline video diffusion model to incorporate the mask as an additional input. <br>
-      2. We introduce a <span style="color:green">[TGT]</span> token that will be used to encode target’s spatial information in the text prompt. <br>
-      3. We fine-tune the model using our cross-attention loss that aligns the cross-attention maps associated with this token with <br>&nbsp&nbsp&nbsp&nbsp the input target mask.
+      <h2 class="title is-3 has-text-centered">Method</h2>
+      <h3>
+        1. We first extend a baseline video diffusion model to incorporate the mask as an additional input. <br>
+        2. We introduce a <span style="color:green">[TGT]</span> token that will be used to encode target’s spatial information in the text prompt. <br>
+        3. We fine-tune the model using our cross-attention loss that aligns the cross-attention maps associated with this token with the input target mask.
+        <br><br>
+      </h3>
+      
+      <div class="columns is-centered">
+        <img src="static/images/method_0.png" alt="Random Image" id="tree" width="45%">
+      </div>
+
+      <h3>
+        During inference, we prepend the <span style="color:green">[TGT]</span> token to words referring to the target and enable the model to leverage the spatial cue provided by the mask. Our cross-attention loss effectively guides the <span style="color:green">[TGT]</span> token to focus on the target region, enabling precise interactions between the actor and the target.
+        <br><br>
+      </h3>
+
+      <div class="columns is-centered">
+        <img src="static/images/method_1.png" alt="Random Image" id="tree" width="60%">
+      </div>
       <br>
-      <br>
-    </h3>
-    <div class="columns is-centered">
-      <img src="static/images/method_0.png" alt="Random Image" id="tree" width="45%">
-    </div>
-    <h3>
-      During inference, we prepend the <span style="color:green">[TGT]</span> token to words referring to the target and enable the model to leverage the spatial cue provided by the mask. Our cross-attention loss effectively guides the <span style="color:green">[TGT]</span> token to focus on the target region, enabling precise interactions between the actor and the target.
-      <br>
-      <br>
-    </h3>
-    <div class="columns is-centered">
-      <img src="static/images/method_1.png" alt="Random Image" id="tree" width="60%">
-    </div>
+      <!-- Toggle Button -->
+      <div class="has-text-centered">
+        <button class="button is-link is-light" onclick="toggleDetails()">Click for details</button>
+      </div>
+
+      <!-- Hidden Section -->
+      <div id="details-section" style="display: none;">
+        <h3>
+          <br>
+          For effective and efficient supervision, we selectively apply our cross-attention loss to the model by identifying: <br>
+          1. <b>transformer blocks that best capture semantic details</b> (Left) : We first generate 100 videos and compute L2 error between cross-attention map of each block and the segmentation mask for a predefined token to evaluate semantic alignment of each block. We apply our loss to region of blocks with the least error.<br>
+          2. <b>cross-attention regions that most influence target awareness of the model</b> (Right) : While both text-to-video (T2V) and video-to-text (V2T) cross-attention maps encode semantic information, we apply our cross-attention loss on V2T cross-attention regions, since V2T attention directly influences the video latent representations.<br>
+          <br>
+        </h3>
+        <div class="columns is-centered">
+          <img src="static/images/method_2.png" alt="Random Image" id="tree" width="80%">
+        </div>
+
+        <h3>
+          <br>
+          To integrate the target mask during generation, we extend our base image-to-video diffusion model, CogVideoX. Specifically, we concatenate the downsampled mask alongside the input image condition and append an extra input channel to the original image projection layer. During fine-tuning, we train the image projection layer and the transformer.
+          <br>
+          <br>
+        </h3>
+        <div class="columns is-centered">
+          <img src="static/images/method_3.png" alt="Random Image" id="tree" width="50%">
+        </div>
+
+        <h3>
+          <br>
+          To train our target-aware model, we curate 1290 videos from Ego-Exo4D and BEHAVE datasets that satisfy two conditions: <br>
+          1. the initial frame should depict a scene where an actor is present but not yet interacting with the target, and <br>
+          2. subsequent frames must capture the actor engaging with the target. <br>
+          We obtain the mask for the target in the initial frame using SAM and generate text prompts with CogVLM2-Caption. While it is ideal to prepend <span style="color:green">[TGT]</span> tokens to the target object tokens during caption generation, we find that current video captioning tools cannot reliably identify the target object in complex scenes. Therefore, we add a general sentence, “The person interacts with <span style="color:green">[TGT]</span> object.” to the generated captions, which we find sufficient to train our target-aware model.
+
+          <br>
+          <br>
+        </h3>
+        <div class="content">
+          <video id="method_4" autoplay muted loop playsinline height="100%">
+            <source src="./static/videos/method_4_crf.mp4" type="video/mp4">
+          </video>
+        </div>
+        
+        <style>
+          #method_4 {
+            clip-path: inset(2px 2px 2.5px 2px); /* Crop 2px from each side */
+          }
+        </style>
+      </div>
+
 
     </div>
   </div>
 </section>
+
+<!-- JavaScript for Toggle -->
+<script>
+  function toggleDetails() {
+    var detailsSection = document.getElementById("details-section");
+    if (detailsSection.style.display === "none") {
+      detailsSection.style.display = "block";
+    } else {
+      detailsSection.style.display = "none";
+    }
+  }
+</script>
 
 
 
