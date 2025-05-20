@@ -22,7 +22,7 @@
 
 <p align="center">
     <img src="assets/demo.gif" alt="Logo" width="190%">
-    <b>TL;DR. We use the segmentation mask as an additional input to specify the target.</b>
+    <b>TL;DR. We use the segmentation mask as an additional input to specify the target for video diffusion mdoels.</b>
 </p>
 
 ## Updates
