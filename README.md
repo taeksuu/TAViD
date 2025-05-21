@@ -1,5 +1,5 @@
 <p align="center">
-  <h1 align="center">Target Aware Video Diffusion Models</h1>
+  <h1 align="center">Target-Aware Video Diffusion Models</h1>
   <p align="center">
     arXiv 2025
   </p>
