@@ -11,7 +11,7 @@
     <a href="https://arxiv.org/pdf/2503.18950">
       <img src='https://img.shields.io/badge/Paper-PDF-red?style=flat&logo=arXiv&logoColor=red' alt='Paper PDF'>
     </a>
-    <a href='https://taeksuu.github.io/tavid/' style='padding-left: 0.5rem;'>
+    <a href='https://taeksuu.github.io/TAViD/' style='padding-left: 0.5rem;'>
       <img src='https://img.shields.io/badge/Project-Page-blue?style=flat&logo=Google%20chrome&logoColor=blue' alt='Project Page'>
     </a>
     <a href='https://huggingface.co/Taeksoo/TAViD' style='padding-left: 0.5rem;'>
