@@ -1,53 +1,111 @@
-# Academic Project Page Template
-This is an academic paper project page template.
+<p align="center">
+  <h1 align="center">Target Aware Video Diffusion Models</h1>
+  <p align="center">
+    arXiv 2025
+  </p>
+  <p align="center">
+    <a href="https://taeksuu.github.io/">Taeksoo Kim</a>,
+    <a href="https://jhugestar.github.io/">Hanbyul Joo</a>
+  </p>
+  <p align="center">
+    <a href="https://arxiv.org/pdf/2503.18950">
+      <img src='https://img.shields.io/badge/Paper-PDF-red?style=flat&logo=arXiv&logoColor=red' alt='Paper PDF'>
+    </a>
+    <a href='https://taeksuu.github.io/tavid/' style='padding-left: 0.5rem;'>
+      <img src='https://img.shields.io/badge/Project-Page-blue?style=flat&logo=Google%20chrome&logoColor=blue' alt='Project Page'>
+    </a>
+    <a href='https://huggingface.co/Taeksoo/TAViD' style='padding-left: 0.5rem;'>
+      <img src='https://img.shields.io/badge/Model-Hugging%20Face-yellow?style=flat&logo=Hugging%20face&logoColor=yellow' alt='Model Hugging Face'>
+    </a>
+  </p>
+</p>
+
+<p align="center">
+    <img src="assets/demo.gif" alt="Logo" width="190%">
+    <b>TL;DR. We use the segmentation mask as an additional input to specify the target for video diffusion mdoels.</b>
+</p>
+
+## Updates
+- [2025/05/20] Initial code for inference and checkpoint released.
+- [2025/03/25] Paper released.
 
 
-Example project pages built using this template are:
-- https://horwitz.ai/probex
-- https://vision.huji.ac.il/probegen
-- https://horwitz.ai/mother
-- https://horwitz.ai/spectral_detuning
-- https://vision.huji.ac.il/ladeda
-- https://vision.huji.ac.il/dsire
-- https://horwitz.ai/podd
-- https://dreamix-video-editing.github.io
-- https://horwitz.ai/conffusion
-- https://horwitz.ai/3d_ads/
-- https://vision.huji.ac.il/ssrl_ad
-- https://vision.huji.ac.il/deepsim
+TODO list.
+- [ ] Release training code and dataset
+- [ ] Add attention visualization code
+- [ ] Add Gradio app
+
+## Table of Contents
+<ul>
+    <li>
+        <a href="#installation">Installation</a>
+    </li>
+    <li>
+        <a href="#inference">Inference</a>
+    </li>
+    <li>
+        <a href="#training and dataset">Training and Dataset</a>
+    </li>
+    <li>
+        <a href="#citation">Citation</a>
+    </li>
+    <li>
+        <a href="#acknowledgement">Acknowledgement</a>
+    </li>
+    <!-- <li>
+        <a href="#license">License</a>
+    </li> -->
+</ul>
+
+## Installation
+Clone the repository.
+```bash
+git clone https://github.com/taeksuu/TAViD.git
+```
+
+Create a conda environment and install the required packages.
+```bash
+conda create -n tavid python=3.11
+conda activate tavid
+pip install -r requirements.txt
+```
+Download the model checkpoints and place it in the `./checkpoints` folder.
+```bash
+huggingface-cli download Taeksoo/TAViD --local-dir checkpoints
+```
+
+## Inference
+You can run the inference code with the following command. Just add the trigger word "target" in front of the noun you'd like to specify as in the example below. You will find your output videos in the `./results` folder. \
+We have tested the inference code on RTX 3090 and A100.
+```bash
+python inference.py \
+  --image_path assets/image.png \
+  --mask_path assets/mask_0.png \
+  --prompt "In a serene, well-lit kitchen with clean, modern lines, the woman reaches forward, and picks up the target mug cup with her hand. She brings the target mug to her lips, taking a slow, thoughtful sip of the coffee, her gaze unfocused as if lost in contemplation. The steam from the coffee curls gently in the air, adding warmth to the quiet ambiance of the room."
+```
+Since our base model, CogvideoX, is trained with long prompts, prompt quality directly impacts the output quality. Please refer to <a href="https://github.com/THUDM/CogVideo/blob/main/inference/convert_demo.py">this guide</a> from CogVideoX for prompt enhancement. The generated videos can still suffer from limitations, including object disappearances or implausible dynamics. You may have to try multiple times for the best results.
+
+## Training and Dataset
+We will soon release the training code and data.
 
 
+## Citation
+If you find TAViD useful for your work, please consider citing:
+```bibtex
+@article{kim2025target,
+    title={Target-Aware Video Diffusion Models},
+    author={Kim, Taeksoo and Joo, Hanbyul},
+    journal={arXiv preprint arXiv:2503.18950},
+    year={2025}
+}
+```
 
-## Start using the template
-To start using the template click on `Use this Template`.
 
-The template uses html for controlling the content and css for controlling the style. 
-To edit the websites contents edit the `index.html` file. It contains different HTML "building blocks", use whichever ones you need and comment out the rest.  
+## Acknowledgements
+We sincerely thank the authors of following amazing works for their open-sourced codes, models, and datasets:
+- Training: [CogVideo](https://github.com/THUDM/CogVideo), [Finetrainers](https://github.com/a-r-r-o-w/finetrainers)
+- Datasets: [Ego-Exo4D](https://ego-exo4d-data.org/), [BEHAVE](https://virtualhumans.mpi-inf.mpg.de/behave/)
 
-**IMPORTANT!** Make sure to replace the `favicon.ico` under `static/images/` with one of your own, otherwise your favicon is going to be a dreambooth image of me.
 
-## Components
-- Teaser video
-- Images Carousel
-- Youtube embedding
-- Video Carousel
-- PDF Poster
-- Bibtex citation
-
-## Tips:
-- The `index.html` file contains comments instructing you what to replace, you should follow these comments.
-- The `meta` tags in the `index.html` file are used to provide metadata about your paper 
-(e.g. helping search engine index the website, showing a preview image when sharing the website, etc.)
-- The resolution of images and videos can usually be around 1920-2048, there rarely a need for better resolution that take longer to load. 
-- All the images and videos you use should be compressed to allow for fast loading of the website (and thus better indexing by search engines). For images, you can use [TinyPNG](https://tinypnzg.com), for videos you can need to find the tradeoff between size and quality.
-- When using large video files (larger than 10MB), it's better to use youtube for hosting the video as serving the video from the website can take time.
-- Using a tracker can help you analyze the traffic and see where users came from. [statcounter](https://statcounter.com) is a free, easy to use tracker that takes under 5 minutes to set up. 
-- This project page can also be made into a github pages website.
-- Replace the favicon to one of your choosing (the default one is of the Hebrew University). 
-- Suggestions, improvements and comments are welcome, simply open an issue or contact me. You can find my contact information at [https://horwitz.ai](https://horwitz.ai)
-
-## Acknowledgments
-Parts of this project page were adopted from the [Nerfies](https://nerfies.github.io/) page.
-
-## Website License
-<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+<!-- ## License
+Codes are available only for non-commercial research purposes. -->
