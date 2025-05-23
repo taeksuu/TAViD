@@ -11,10 +11,10 @@
     <a href="https://arxiv.org/pdf/2503.18950">
       <img src='https://img.shields.io/badge/Paper-PDF-red?style=flat&logo=arXiv&logoColor=red' alt='Paper PDF'>
     </a>
-    <a href='https://taeksuu.github.io/TAViD/' style='padding-left: 0.5rem;'>
+    <a href='https://taeksuu.github.io/tavid/' style='padding-left: 0.5rem;'>
       <img src='https://img.shields.io/badge/Project-Page-blue?style=flat&logo=Google%20chrome&logoColor=blue' alt='Project Page'>
     </a>
-    <a href='https://huggingface.co/Taeksoo/TAViD' style='padding-left: 0.5rem;'>
+    <a href='https://huggingface.co/Taeksoo/tavid' style='padding-left: 0.5rem;'>
       <img src='https://img.shields.io/badge/Model-Hugging%20Face-yellow?style=flat&logo=Hugging%20face&logoColor=yellow' alt='Model Hugging Face'>
     </a>
   </p>
@@ -60,7 +60,7 @@ TODO list.
 ## Installation
 Clone the repository.
 ```bash
-git clone https://github.com/taeksuu/TAViD.git
+git clone https://github.com/taeksuu/tavid.git
 ```
 
 Create a conda environment and install the required packages.
